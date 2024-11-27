@@ -21,16 +21,19 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Super Admin',
             'email' => 'super@admin.com',
+            'foto' => '',
             'role' => 'superadmin',
         ]);
         User::factory()->create([
             'name' => 'Administrator',
             'email' => 'admin@admin.com',
+            'foto' => '',
             'role' => 'administrator',
         ]);
         User::factory()->create([
             'name' => 'Staf',
             'email' => 'staf@admin.com',
+            'foto' => '',
             'role' => 'staf',
         ]);
         Instansi::create([
@@ -45,9 +48,9 @@ class DatabaseSeeder extends Seeder
             'website' => 'www.mtsn1pandeglang.sch.id',
             'email' => 'adm@mtsn1pandeglang.sch.id',
             'telepon' => '+6289612050291',
-            'logo_institusi' => 'logo-institusi.png',
-            'logo_instansi' => 'logo-instansi.png',
-            'tte' => 'tte-kepala-instansi.png',
+            'logo_institusi' => '',
+            'logo_instansi' => '',
+            'tte' => '',
         ]);
         // Jabatan::create([
         //     'jabatan' => 'Wakamad Kurikulum',

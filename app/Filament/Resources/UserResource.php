@@ -50,12 +50,16 @@ class UserResource extends Resource
                             ->default(now())
                             ->required(),
                         FileUpload::make('foto')
-                            ->visibility('private')
                             ->label('Avatar')
                             ->directory('avatar')
                             ->image()
+                            ->imageEditorAspectRatios([
+                                null,
+                                '16:9',
+                                '4:3',
+                                '1:1',
+                            ])
                             ->imageEditor()
-                            ->circleCropper()
                             ->fetchFileInformation(false) //skip load informasi file
                             ->minSize(10) // 10 KB
                             ->maxSize(1024) // 512 KB
@@ -95,6 +99,7 @@ class UserResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('foto')
                     ->label('Avatar')
+                    ->defaultImageUrl(url('/images/avatar.jpg'))
                     ->width(60)
                     ->height(60)
                     ->alignCenter()

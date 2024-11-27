@@ -83,7 +83,7 @@ class InstansiResource extends Resource
                         FileUpload::make('logo_institusi')
                             ->label('Logo Institusi')
                             ->directory('logo')
-                            ->visibility('private')
+                            ->preserveFilenames()
                             ->image()
                             ->imageEditor()
                             ->minSize(10)
@@ -91,8 +91,8 @@ class InstansiResource extends Resource
                             ->required(),
                         FileUpload::make('logo_instansi')
                             ->label('Logo Instansi')
+                            ->preserveFilenames()
                             ->directory('logo')
-                            ->visibility('private')
                             ->image()
                             ->imageEditor()
                             ->minSize(10)
@@ -100,8 +100,8 @@ class InstansiResource extends Resource
                             ->required(),
                         FileUpload::make('tte')
                             ->label('TTE Kepala Instansi')
+                            ->preserveFilenames()
                             ->directory('tte')
-                            ->visibility('private')
                             ->image()
                             ->imageEditor()
                             ->minSize(10)
@@ -145,13 +145,16 @@ class InstansiResource extends Resource
 
                 ImageColumn::make('logo_institusi')
                     ->alignCenter()
+                    ->defaultImageUrl(url('/images/logo-institusi.png'))
                     ->hidden(),
 
                 ImageColumn::make('logo_instansi')
+                    ->defaultImageUrl(url('/images/logo-instansi.png'))
                     ->alignCenter(),
 
                 ImageColumn::make('tte')
                     ->alignCenter()
+                    ->defaultImageUrl(url('/images/tte-kepala-instansi.png'))
                     ->hidden(),
 
                 TextColumn::make('instansi')
