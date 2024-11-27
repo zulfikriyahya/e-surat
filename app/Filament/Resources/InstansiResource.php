@@ -3,18 +3,17 @@
 namespace App\Filament\Resources;
 
 use App\Models\Instansi;
-use App\Filament\Resources\InstansiResource\Pages;
-use Filament\Resources\Resource;
-use Filament\Tables;
-use Filament\Tables\Table;
-use Filament\Tables\Columns\ImageColumn;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Form;
+use Filament\Tables\Table;
+use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\FileUpload;
+use App\Filament\Resources\InstansiResource\Pages;
 
 class InstansiResource extends Resource
 {
@@ -24,10 +23,13 @@ class InstansiResource extends Resource
     protected static ?string $slug = 'instansi';
     protected static ?int $sort = 1;
     protected static ?string $navigationIcon = 'heroicon-o-building-office-2';
+
+    // Form
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
+                // Section Informasi Instansi
                 Section::make('Informasi Instansi')
                     ->description('Lengkapi data instansi di bawah ini.')
                     ->schema([
@@ -78,6 +80,8 @@ class InstansiResource extends Resource
                         'md' => 2,
                         'lg' => 2,
                     ]),
+
+                // Section Informasi Logo dan TTE
                 Section::make('Informasi Logo dan TTE')
                     ->schema([
                         FileUpload::make('logo_institusi')
@@ -87,8 +91,7 @@ class InstansiResource extends Resource
                             ->image()
                             ->imageEditor()
                             ->minSize(10)
-                            ->maxSize(1024)
-                            ->required(),
+                            ->maxSize(1024),
                         FileUpload::make('logo_instansi')
                             ->label('Logo Instansi')
                             ->preserveFilenames()
@@ -96,8 +99,7 @@ class InstansiResource extends Resource
                             ->image()
                             ->imageEditor()
                             ->minSize(10)
-                            ->maxSize(1024)
-                            ->required(),
+                            ->maxSize(1024),
                         FileUpload::make('tte')
                             ->label('TTE Kepala Instansi')
                             ->preserveFilenames()
@@ -105,13 +107,14 @@ class InstansiResource extends Resource
                             ->image()
                             ->imageEditor()
                             ->minSize(10)
-                            ->maxSize(1024)
-                            ->required(),
+                            ->maxSize(1024),
                     ])->columns([
                         'sm' => 1,
                         'md' => 3,
                         'lg' => 3,
                     ]),
+
+                // Section Kontak
                 Section::make('Kontak')
                     ->schema([
                         TextInput::make('website')
@@ -134,6 +137,7 @@ class InstansiResource extends Resource
             ]);
     }
 
+    // Table
     public static function table(Table $table): Table
     {
         return $table
@@ -142,52 +146,41 @@ class InstansiResource extends Resource
                     ->hidden(),
                 TextColumn::make('subinstitusi')
                     ->hidden(),
-
                 ImageColumn::make('logo_institusi')
                     ->alignCenter()
                     ->defaultImageUrl(url('/images/logo-institusi.png'))
                     ->hidden(),
-
                 ImageColumn::make('logo_instansi')
                     ->defaultImageUrl(url('/images/logo-instansi.png'))
                     ->alignCenter(),
-
                 TextColumn::make('instansi')
+                    ->icon('heroicon-m-building-office-2')
                     ->alignCenter(),
-
                 TextColumn::make('status')
                     ->alignCenter(),
-
                 TextColumn::make('akreditasi')
                     ->alignCenter(),
-
                 TextColumn::make('kepala_instansi')
                     ->label('Kepala Instansi')
                     ->alignCenter(),
                 ImageColumn::make('tte')
                     ->alignCenter()
                     ->defaultImageUrl(url('/images/tte-kepala-instansi.jpg')),
-                // ->hidden(),
-
                 TextColumn::make('nip_kepala')
                     ->alignCenter()
                     ->hidden(),
-
                 TextColumn::make('website')
+                    ->icon('heroicon-m-globe-americas')
                     ->alignCenter(),
-
                 TextColumn::make('email')
                     ->alignCenter()
                     ->hidden(),
-
                 TextColumn::make('telepon')
                     ->alignCenter()
                     ->hidden(),
-
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->hidden(),
-
                 TextColumn::make('updated_at')
                     ->dateTime()
                     ->hidden(),
@@ -198,6 +191,15 @@ class InstansiResource extends Resource
         // ]);
     }
 
+    // Relasi
+    public static function getRelations(): array
+    {
+        return [
+            //
+        ];
+    }
+
+    // Halaman
     public static function getPages(): array
     {
         return [

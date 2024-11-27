@@ -2,17 +2,22 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
 use App\Models\User;
-use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Tabs;
 use Illuminate\Support\Facades\Hash;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Section;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Tables\Actions\DeleteBulkAction;
 use App\Filament\Resources\UserResource\Pages;
 
 class UserResource extends Resource
@@ -21,114 +26,128 @@ class UserResource extends Resource
     protected static ?string $navigationGroup = 'Profile';
     protected static ?string $label = 'Pengguna';
     protected static ?int $sort = 2;
-
-
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
+    // Forms
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Section::make('Informasi Pengguna')
-                    ->description('Lengkapi data pengguna di bawah ini.')
-                    ->schema([
-                        TextInput::make('name')
-                            ->maxLength(30)
-                            ->label('Nama Lengkap')
-                            ->required(),
-                        Select::make('role')
-                            ->label('Peran')
-                            ->options([
-                                'superadmin' => 'Super Admin',
-                                'administrator' => 'Administrator',
-                                'staf' => 'Staf',
-                            ])
-                            ->native(false)
-                            ->required(),
-                        Forms\Components\DateTimePicker::make('email_verified_at')
-                            ->label('Email Verified At')
-                            ->default(now())
-                            ->required(),
-                        FileUpload::make('foto')
-                            ->label('Avatar')
-                            ->directory('avatar')
-                            ->image()
-                            ->imageEditorAspectRatios([
-                                null,
-                                '16:9',
-                                '4:3',
-                                '1:1',
-                            ])
-                            ->imageEditor()
-                            ->fetchFileInformation(false) //skip load informasi file
-                            ->minSize(10) // 10 KB
-                            ->maxSize(1024) // 512 KB
-                            ->required(),
-                    ])
-                    ->columns([
-                        'sm' => 1,
-                        'md' => 3,
-                        'lg' => 3,
-                    ]),
-                Section::make('Informasi Akun')
-                    ->schema([
-                        TextInput::make('email')
-                            ->maxLength(30)
-                            ->label('Surel')
-                            ->email()
-                            ->required(),
-                        TextInput::make('password')
-                            ->minLength(8)
-                            ->maxLength(50)
-                            ->password()
-                            ->dehydrateStateUsing(fn($state) => Hash::make($state))
-                            ->dehydrated(fn($state) => filled($state)),
+                // Tab Informasi Pengguna
+                Tabs::make('Informasi Pengguna')
+                    ->tabs([
+                        Tabs\Tab::make('Informasi Pengguna')
+                            ->icon('heroicon-m-user-circle')
+                            ->schema([
+                                TextInput::make('name')
+                                    ->maxLength(30)
+                                    ->label('Nama Lengkap')
+                                    ->required(),
+                                Select::make('role')
+                                    ->label('Peran')
+                                    ->options([
+                                        'superadmin' => 'Super Admin',
+                                        'administrator' => 'Administrator',
+                                        'staf' => 'Staf',
+                                    ])
+                                    ->native(false)
+                                    ->required(),
+                                DateTimePicker::make('email_verified_at')
+                                    ->label('Email Verified At')
+                                    ->default(now())
+                                    ->required(),
+                                FileUpload::make('foto')
+                                    ->label('Avatar')
+                                    ->directory('avatar')
+                                    ->image()
+                                    ->imageEditorAspectRatios([
+                                        null,
+                                        '16:9',
+                                        '4:3',
+                                        '1:1',
+                                    ])
+                                    ->imageEditor()
+                                    ->fetchFileInformation(false) //skip load informasi file
+                                    ->minSize(10) // 10 KB
+                                    ->maxSize(1024) // 512 KB
+                                    ->required(),
+                            ]),
                     ])
                     ->columns([
                         'sm' => 1,
                         'md' => 2,
                         'lg' => 2,
-                    ])
+                    ]),
 
+                // Tab Informasi Akun
+                Tabs::make('Informasi Akun')
+                    ->tabs([
+                        Tabs\Tab::make('Informasi Akun')
+                            ->icon('heroicon-m-cog')
+                            ->schema([
+                                TextInput::make('email')
+                                    ->maxLength(30)
+                                    ->label('Surel')
+                                    ->email()
+                                    ->required(),
+                                TextInput::make('password')
+                                    ->minLength(8)
+                                    ->maxLength(50)
+                                    ->password()
+                                    ->dehydrateStateUsing(fn($state) => Hash::make($state))
+                                    ->dehydrated(fn($state) => filled($state)),
+                            ]),
+                    ])
+                    ->columns([
+                        'sm' => 1,
+                        'md' => 2,
+                        'lg' => 2,
+                    ]),
             ]);
     }
 
+    // Table
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('foto')
+                ImageColumn::make('foto')
                     ->label('Avatar')
                     ->defaultImageUrl(url('/images/avatar.jpg'))
                     ->width(60)
                     ->height(60)
                     ->alignCenter()
                     ->circular(),
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->label('Nama Lengkap')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email')
+                TextColumn::make('email')
                     ->label('Surel')
+                    ->icon('heroicon-m-envelope')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email_verified_at')
-                    ->toggleable(isToggledHiddenByDefault: true)
+                TextColumn::make('email_verified_at')
+                    // ->toggleable(isToggledHiddenByDefault: true)
                     ->dateTime()
+                    ->icon('heroicon-m-clock')
+                    ->since()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('role')
+                TextColumn::make('role')
                     ->label('Peran')
+                    ->icon('heroicon-m-user-circle')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
+                    ->since()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('role')
+                SelectFilter::make('role')
                     ->label('Peran')
                     ->options([
                         'superadmin' => 'Super Admin',
@@ -136,17 +155,17 @@ class UserResource extends Resource
                         'staf' => 'Staf',
                     ])
             ])
-
             ->actions([
-                Tables\Actions\EditAction::make(),
+                EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
 
+    // Relasi
     public static function getRelations(): array
     {
         return [
@@ -154,6 +173,7 @@ class UserResource extends Resource
         ];
     }
 
+    // Halaman
     public static function getPages(): array
     {
         return [

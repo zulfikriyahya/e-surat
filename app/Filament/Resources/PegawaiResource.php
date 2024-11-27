@@ -2,17 +2,24 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PegawaiResource\Pages;
-use App\Filament\Resources\PegawaiResource\RelationManagers;
 use App\Models\Pegawai;
-use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
-use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Ramsey\Uuid\Type\Integer;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\Textarea;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteBulkAction;
+use App\Filament\Resources\PegawaiResource\Pages\EditPegawai;
+use App\Filament\Resources\PegawaiResource\Pages\ListPegawais;
+use App\Filament\Resources\PegawaiResource\Pages\CreatePegawai;
 
 class PegawaiResource extends Resource
 {
@@ -20,35 +27,35 @@ class PegawaiResource extends Resource
     protected static ?string $slug = 'pegawai';
     protected static ?string $navigationGroup = 'Manajemen Pegawai';
     protected static ?int $sort = 2;
-
     protected static ?string $navigationIcon = 'heroicon-o-user';
 
+    // Form
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('nama')
+                TextInput::make('nama')
                     ->label('Nama Lengkap')
                     ->maxLength(50)
                     ->required(),
-                Forms\Components\TextInput::make('nik')
+                TextInput::make('nik')
                     ->required()
                     ->label('NIK')
                     ->maxLength(16)
                     ->numeric(),
-                Forms\Components\TextInput::make('nip')
+                TextInput::make('nip')
                     ->numeric()
                     ->label('NIP')
                     ->maxLength(18),
-                Forms\Components\TextInput::make('nuptk')
+                TextInput::make('nuptk')
                     ->numeric()
                     ->label('NUPTK')
                     ->maxLength(16),
-                Forms\Components\Select::make('jabatan_id')
+                Select::make('jabatan_id')
                     ->label('Jabatan')
                     ->relationship('jabatan', 'jabatan')
                     ->required(),
-                Forms\Components\FileUpload::make('foto')
+                FileUpload::make('foto')
                     ->image()
                     ->directory('foto')
                     ->imageEditor()
@@ -61,77 +68,83 @@ class PegawaiResource extends Resource
                         '4:3',
                         '1:1',
                     ]),
-                Forms\Components\Textarea::make('alamat')
+                Textarea::make('alamat')
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('email')
+                TextInput::make('email')
                     ->email(),
-                Forms\Components\TextInput::make('telepon')
+                TextInput::make('telepon')
                     ->tel(),
-                Forms\Components\Select::make('status')
+                Select::make('status')
                     ->options([
                         'PNS' => 'Pegawai Negeri Sipil',
                         'PPNPN' => 'Pegawai Pemerintah Non Pegawai Negeri',
                         'Honorer' => 'Honorer',
                     ])
                     ->required(),
-                Forms\Components\Toggle::make('isAktif')
+                Toggle::make('isAktif')
                     ->label('Aktif Bekerja?')
                     ->required(),
             ]);
     }
 
+    // Tabel
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('foto')
+                ImageColumn::make('foto')
                     ->circular(),
-                Tables\Columns\TextColumn::make('nama')
+                TextColumn::make('nama')
                     ->label('Nama Lengkap')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('nik')
+                TextColumn::make('nik')
                     ->label('NIK')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('nip')
+                TextColumn::make('nip')
                     ->label('NIP')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('nuptk')
+                TextColumn::make('nuptk')
                     ->label('NUPTK')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('jabatan.jabatan')
+                TextColumn::make('jabatan.jabatan')
+                    ->icon('heroicon-m-briefcase')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('email')
+                TextColumn::make('email')
+                    ->icon('heroicon-m-envelope')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('telepon')
+                TextColumn::make('telepon')
+                    ->icon('heroicon-m-phone')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('status')
+                TextColumn::make('status')
                     ->label('Status Pegawai')
                     ->searchable(),
-                Tables\Columns\IconColumn::make('isAktif')
+                IconColumn::make('isAktif')
                     ->label('Aktif Bekerja')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
+                    ->since()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
 
+    // Relasi
     public static function getRelations(): array
     {
         return [
@@ -139,12 +152,13 @@ class PegawaiResource extends Resource
         ];
     }
 
+    // Halaman
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPegawais::route('/'),
-            'create' => Pages\CreatePegawai::route('/create'),
-            'edit' => Pages\EditPegawai::route('/{record}/edit'),
+            'index' => ListPegawais::route('/'),
+            'create' => CreatePegawai::route('/create'),
+            'edit' => EditPegawai::route('/{record}/edit'),
         ];
     }
 }

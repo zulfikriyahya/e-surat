@@ -2,18 +2,18 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\JabatanResource\Pages;
-use App\Filament\Resources\JabatanResource\RelationManagers;
 use App\Models\Jabatan;
-use DeepCopy\Filter\Filter;
-use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Forms\FormsComponent;
-use Filament\Resources\Resource;
-use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Resources\Resource;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteBulkAction;
+use App\Filament\Resources\JabatanResource\Pages\EditJabatan;
+use App\Filament\Resources\JabatanResource\Pages\ListJabatans;
+use App\Filament\Resources\JabatanResource\Pages\CreateJabatan;
 
 class JabatanResource extends Resource
 {
@@ -23,44 +23,50 @@ class JabatanResource extends Resource
     protected static ?int $sort = 1;
     protected static ?string $navigationIcon = 'heroicon-o-briefcase';
 
+    // Form
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('jabatan')
+                TextInput::make('jabatan')
                     ->required(),
             ]);
     }
 
+    // Table
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('jabatan')
+                TextColumn::make('jabatan')
+                    ->icon('heroicon-m-briefcase')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
+                    ->label('Dibuat')
+                    ->dateTime()
+                    ->sortable(),
+                TextColumn::make('updated_at')
+                    ->label('Diubah')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->since()
+                    ->icon('heroicon-m-clock'),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
 
+    // Relasi
     public static function getRelations(): array
     {
         return [
@@ -68,12 +74,13 @@ class JabatanResource extends Resource
         ];
     }
 
+    // Halaman
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListJabatans::route('/'),
-            'create' => Pages\CreateJabatan::route('/create'),
-            'edit' => Pages\EditJabatan::route('/{record}/edit'),
+            'index' => ListJabatans::route('/'),
+            'create' => CreateJabatan::route('/create'),
+            'edit' => EditJabatan::route('/{record}/edit'),
         ];
     }
 }
