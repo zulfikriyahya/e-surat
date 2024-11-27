@@ -154,8 +154,8 @@ class InstansiResource extends Resource
 
                 ImageColumn::make('tte')
                     ->alignCenter()
-                    ->defaultImageUrl(url('/images/tte-kepala-instansi.png'))
-                    ->hidden(),
+                    ->defaultImageUrl(url('/images/tte-kepala-instansi.jpg')),
+                // ->hidden(),
 
                 TextColumn::make('instansi')
                     ->alignCenter(),
