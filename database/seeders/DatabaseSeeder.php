@@ -103,14 +103,18 @@ class DatabaseSeeder extends Seeder
         Jabatan::create([
             'jabatan' => 'Laboratorian',
         ]);
-        // Pegawai::create([
-        //     'nama' => 'Yahya Zulfikri',
-        //     'jabatan' => 'Laboratorian',
-        //     'nip' => '200001142025051001',
-        //     'nuptk' => '1234567890123456',
-        //     'nik' => '3601211801000001',
-        //     'status' => 'PNS',
-        //     'isAktif' => true,
-        // ]);
+        Pegawai::create([
+            'nama' => 'Yahya Zulfikri',
+            'jabatan_id' => '1',
+            'nip' => '200001142025051001',
+            'nuptk' => '1234567890123456',
+            'nik' => '3601211801000001',
+            'status' => 'PNS',
+            'foto' => '',
+            'isAktif' => true,
+            'alamat' => 'Kp. Kebon Cau RT 001 RW 005 Kelurahan Pandeglang, Kecamatan Pandeglang, Kabupaten Pandeglang, Provinsi Banten - Indonesia, Kode Pos 42211',
+            'email' => 'yahya@mtsn1pandeglang.sch.id',
+            'telepon' => '+6289612050291',
+        ]);
     }
 }
