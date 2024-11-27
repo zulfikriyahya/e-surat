@@ -26,6 +26,6 @@ class PrintSuratTugasController extends Controller
         $mpdf->WriteHTML($kop);
 
         // Output file PDF ke browser
-        return $mpdf->Output(public_path('storage/surat/Surat Tugas.pdf'), 'F'); // 'I' untuk inline, atau 'D' untuk download
+        return $mpdf->Output('Surat Tugas.pdf', 'I'); // 'I' untuk inline, atau 'D' untuk download
     }
 }

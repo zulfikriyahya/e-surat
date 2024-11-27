@@ -152,10 +152,7 @@ class InstansiResource extends Resource
                     ->defaultImageUrl(url('/images/logo-instansi.png'))
                     ->alignCenter(),
 
-                ImageColumn::make('tte')
-                    ->alignCenter()
-                    ->defaultImageUrl(url('/images/tte-kepala-instansi.jpg')),
-                // ->hidden(),
+
 
                 TextColumn::make('instansi')
                     ->alignCenter(),
@@ -169,6 +166,10 @@ class InstansiResource extends Resource
                 TextColumn::make('kepala_instansi')
                     ->label('Kepala Instansi')
                     ->alignCenter(),
+                ImageColumn::make('tte')
+                    ->alignCenter()
+                    ->defaultImageUrl(url('/images/tte-kepala-instansi.jpg')),
+                // ->hidden(),
 
                 TextColumn::make('nip_kepala')
                     ->alignCenter()

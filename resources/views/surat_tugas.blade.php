@@ -10,7 +10,7 @@
             <tr>
                 <td style="width: 100px; height: 100px; text-align: center">
                     {{-- <img src="{{ asset('storage/' . $instansi->logo) }}" alt="Logo {{ $instansi->nama }}"> --}}
-                    Logo
+                    [LOGO INSTANSI]
                 </td>
                 
                 <td style="text-align: center">
@@ -25,11 +25,12 @@
     </header>
     <hr>
     <main>
+
         {{-- Tabel Isian --}}
         <table style="width: 100%">
             <tr>
                 <td style="text-align: center;" colspan="3">
-                    <u><strong>SURAT TUGAS</strong></u>
+                    <u><strong>[JUDUL SURAT]</strong></u>
                     <p>Nomor: [Nomor Surat] {{-- .../Mts.28.02.01.01/KP.00.1/01/2000 --}}</p>
                 </td>
             </tr>
@@ -130,6 +131,7 @@
             </tr>
         </table>
         <br>
+
         {{-- Tabel Titimangsa --}}
         <table>
             <tr>
@@ -138,7 +140,6 @@
             </tr>
             <tr>
                 <td>
-                    {{-- <p>Pandeglang, 14 Januari 2000</p> --}}
                     <p>[Nama Kabupaten], [Tanggal Surat]</p>
                 </td>
             </tr>
@@ -149,24 +150,22 @@
             </tr>
             <tr>
                 <td>
-                    {{-- <p>Kepala Madrasah Tsanawiyah Negeri 1 Pandeglang</p> --}}
                     <p>Kepala {{ $instansi->instansi }}</p>
                 </td>
             </tr>
             <tr>
                 <td style="height: 90px; width: 90px; text-align: center">
                     [TTE Kepala Instansi]
+                    {{-- <img src="/images/tte-kepala-instansi.jpg" alt=""> --}}
                 </td>
             </tr>
             <tr>
                 <td>
-                    {{-- <b>H. Eman Sulaiman, S.Ag., M.Pd.</b> --}}
                     <b>{{ $instansi->kepala_instansi }}</b>
                 </td>
             </tr>
             <tr>
                 <td>
-                    {{-- <p>NIP 200001142025041001</p> --}}
                     NIP {{ $instansi->nip_kepala }}
                 </td>
             </tr>
