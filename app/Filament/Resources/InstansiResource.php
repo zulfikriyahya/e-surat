@@ -152,8 +152,6 @@ class InstansiResource extends Resource
                     ->defaultImageUrl(url('/images/logo-instansi.png'))
                     ->alignCenter(),
 
-
-
                 TextColumn::make('instansi')
                     ->alignCenter(),
 

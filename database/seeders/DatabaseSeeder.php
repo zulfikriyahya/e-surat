@@ -52,57 +52,57 @@ class DatabaseSeeder extends Seeder
             'logo_instansi' => '',
             'tte' => '',
         ]);
-        // Jabatan::create([
-        //     'jabatan' => 'Wakamad Kurikulum',
-        // ]);
-        // Jabatan::create([
-        //     'jabatan' => 'Wakamad Kesiswaan',
-        // ]);
-        // Jabatan::create([
-        //     'jabatan' => 'Wakamad Sarpras',
-        // ]);
-        // Jabatan::create([
-        //     'jabatan' => 'Wakamad Humas',
-        // ]);
-        // Jabatan::create([
-        //     'jabatan' => 'Guru BK',
-        // ]);
-        // Jabatan::create([
-        //     'jabatan' => 'Guru Matematika',
-        // ]);
-        // Jabatan::create([
-        //     'jabatan' => 'Guru Bahasa Inggris',
-        // ]);
-        // Jabatan::create([
-        //     'jabatan' => 'Guru Bahasa Indonesia',
-        // ]);
-        // Jabatan::create([
-        //     'jabatan' => 'Guru Bahasa Arab',
-        // ]);
-        // Jabatan::create([
-        //     'jabatan' => 'Guru IPA',
-        // ]);
-        // Jabatan::create([
-        //     'jabatan' => 'Guru IPS',
-        // ]);
-        // Jabatan::create([
-        //     'jabatan' => 'Guru PJOK',
-        // ]);
-        // Jabatan::create([
-        //     'jabatan' => 'Guru BTQ',
-        // ]);
-        // Jabatan::create([
-        //     'jabatan' => 'Guru Prakarya',
-        // ]);
-        // Jabatan::create([
-        //     'jabatan' => 'Guru PPKN',
-        // ]);
-        // Jabatan::create([
-        //     'jabatan' => 'Guru Seni Budaya',
-        // ]);
-        // Jabatan::create([
-        //     'jabatan' => 'Laboratorian',
-        // ]);
+        Jabatan::create([
+            'jabatan' => 'Wakamad Kurikulum',
+        ]);
+        Jabatan::create([
+            'jabatan' => 'Wakamad Kesiswaan',
+        ]);
+        Jabatan::create([
+            'jabatan' => 'Wakamad Sarpras',
+        ]);
+        Jabatan::create([
+            'jabatan' => 'Wakamad Humas',
+        ]);
+        Jabatan::create([
+            'jabatan' => 'Guru BK',
+        ]);
+        Jabatan::create([
+            'jabatan' => 'Guru Matematika',
+        ]);
+        Jabatan::create([
+            'jabatan' => 'Guru Bahasa Inggris',
+        ]);
+        Jabatan::create([
+            'jabatan' => 'Guru Bahasa Indonesia',
+        ]);
+        Jabatan::create([
+            'jabatan' => 'Guru Bahasa Arab',
+        ]);
+        Jabatan::create([
+            'jabatan' => 'Guru IPA',
+        ]);
+        Jabatan::create([
+            'jabatan' => 'Guru IPS',
+        ]);
+        Jabatan::create([
+            'jabatan' => 'Guru PJOK',
+        ]);
+        Jabatan::create([
+            'jabatan' => 'Guru BTQ',
+        ]);
+        Jabatan::create([
+            'jabatan' => 'Guru Prakarya',
+        ]);
+        Jabatan::create([
+            'jabatan' => 'Guru PPKN',
+        ]);
+        Jabatan::create([
+            'jabatan' => 'Guru Seni Budaya',
+        ]);
+        Jabatan::create([
+            'jabatan' => 'Laboratorian',
+        ]);
         // Pegawai::create([
         //     'nama' => 'Yahya Zulfikri',
         //     'jabatan' => 'Laboratorian',
