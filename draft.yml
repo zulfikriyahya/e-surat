@@ -1,0 +1,73 @@
+models:
+  # Instansi:
+  #   institusi: string #nama yayasan atau lembaga atau institusi
+  #   subinstitusi: string #nama yayasan atau lembaga atau institusi
+  #   nama: string #nama instansi
+  #   status: string #options = negeri / swasta
+  #   akreditasi: string #options = A / B / C / D
+  #   alamat: text #alamat instansi
+  #   kepala_instansi: string #nama kepala instansi
+  #   nip_kepala: string #nip kepala instansi
+  #   website: string #tipe url()
+  #   email: string #tipe email()
+  #   telepon: string #tipe tel()
+  #   logo: string #upload file
+
+  Jabatan:
+    jabatan: string
+
+  Pegawai:
+    nama: string
+    jabatan: foreign:jabatan.jabatan
+    nip: integer nullable
+    nuptk: integer nullable
+    nik: integer nullable
+    status: string nullable
+    isAktif: boolean
+
+  ########## GENERATE SURAT ##########
+
+  # Klasifikasi:
+  #   kode: string
+  #   nama: string
+  #   kategori: string nullable
+
+  # KategoriSurat:
+  #   kode:
+  #   nama: string
+  #   klasifikasi: string
+  #   nomor_surat: integer autoincrement
+  #   tanggal_surat: date
+########## ARSIP SURAT ##########
+
+# SuratMasuk:
+#   no_surat: string #input manual
+#   asal_surat: string #nama pengirim surat
+#   deskripsi: text #uraian singkat tentang surat
+#   kode_klasifikasi: string foreign:klasifikasi.kode #relasi ke tabel klasifikasi.kode
+#   tanggal_surat: date #tanggal surat
+#   tanggal_diterima: date # tanggal diterima surat
+#   file_surat: string #upload lampiran surat
+#   file_lampiran: string #upload lampiran surat
+#   jumlah lampiran: integer #jumlah lampiran surat
+#   user_id: integer foreign:users.id #relasi ke tabel user.id
+
+# SuratKeluar:
+#   judul: string #judul surat
+#   no_surat: string #nomor surat
+#   kode_surat: string foreign:klasifikasi.kode_surat # options
+#   tanggal_surat: date
+#   deskripsi: text #uraian singkat tentang surat
+#   file_surat: string
+#   file_lampiran: string
+#   jumlah_lampiran: integer
+#   user_id: integer foreign:users.id
+
+# Disposisi:
+#   tujuan: string
+#   isi: text
+#   sifat: string
+#   batas_waktu: date
+#   catatan: text
+#   surat_id: integer foreign:surat_masuk.id
+#   user_id: integer foreign:user.id
