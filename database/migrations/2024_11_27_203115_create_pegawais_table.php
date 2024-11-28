@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('telepon')->nullable();
             $table->string('status')->enum('PNS', 'PPNPN', 'Honorer');
             $table->boolean('isAktif');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

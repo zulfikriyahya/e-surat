@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources\PegawaiResource\Pages;
 
-use App\Filament\Resources\PegawaiResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
+use App\Filament\Resources\PegawaiResource;
+
 
 class EditPegawai extends EditRecord
 {
@@ -14,6 +15,8 @@ class EditPegawai extends EditRecord
     {
         return [
             Actions\DeleteAction::make(),
+            Actions\ForceDeleteAction::make(),
+            Actions\RestoreAction::make(),
         ];
     }
 }
